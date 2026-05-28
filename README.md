@@ -127,10 +127,9 @@ Notebooks were developed on Google Colab (A100 GPU). Recommended order:
 
 ```bibtex
 @article{learned_cooperative_games_2026,
-  title   = {Learning Coalition Value Functions from Relational Data:
-             A Graph Neural Network Approach to Non-Superadditive International Alliance Games},
+  title   = {Cooperative Games with Learned Characteristic Functions: Axiomatic Foundations and an Application to International Coalitions},
   author  = {Kutsal, Mücahit},
-  journal = {Games and Economic Behavior (under review)},
+  journal = {},
   year    = {2026}
 }
 ```

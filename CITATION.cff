@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or refer to the underlying research, please cite both the software and the paper as below."
+title: "learned-cooperative-games: Learning Coalition Value Functions from Relational Data"
+authors:
+  - family-names: "Kutsal"
+    given-names: "Mücahit"
+version: "1.0.0"
+date-released: "2026-05-28"
+license: MIT
+keywords:
+  - cooperative-game-theory
+  - shapley-value
+  - nucleolus
+  - nash-bargaining-solution
+  - graph-neural-networks
+  - non-superadditive-games
+  - international-alliances
+preferred-citation:
+  type: article
+  title: "Learning Coalition Value Functions from Relational Data: A Graph Neural Network Approach to Non-Superadditive International Alliance Games"
+  authors:
+    - family-names: "Kutsal"
+      given-names: "Mücahit"
+  journal: "Games and Economic Behavior"
+  year: 2026
+  status: "in-preparation"
