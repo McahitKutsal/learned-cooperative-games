@@ -1,0 +1,103 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+.jupyter/
+profile_default/
+ipython_config.py
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checkers / linters
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+.pyre/
+.pytype/
+
+# IDEs and editors
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+.ropeproject
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Logs and temp
+*.log
+logs/
+*.tmp
+*.bak
+*.orig
+
+# Model / experiment artefacts that should not be versioned
+wandb/
+mlruns/
+lightning_logs/
+runs/
+tb_logs/
+*.ckpt
+
+# Large or transient data files (raw downloads, caches)
+*.zip
+*.tar
+*.tar.gz
+*.7z
+data/raw/
+data/cache/
+data/tmp/
+
+# LP solver / game-theory analysis caches
+shapley_cache/
+nucleolus_cache/
+*.lp
+
+# Secrets
+*.pem
+*.key
+.envrc
+secrets.yaml
+secrets.yml
+credentials.json

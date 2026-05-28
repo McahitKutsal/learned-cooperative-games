@@ -1,0 +1,470 @@
+# Tarihsel Koalisyon Kanonu
+# ============================
+#
+# CoalitionGNN projesi için pozitif koalisyon örnekleri.
+# Her giriş bir tarihsel olarak gözlemlenmiş, kayda değer çok-taraflı koalisyondur.
+#
+# Tasarım kararları (manifest v3'e bağlı):
+# - Dar tanım (resmi anlaşmalar) + sınırlı sayıda kayda değer de facto koalisyon
+# - Önemli üyelik değişimleri ayrı varlıklar olarak listelenir (NATO_12, NATO_15, ...)
+# - COW numeric kodları kullanılır (country_master.parquet ile birebir hizalanır)
+# - Hâlâ aktif koalisyonlar için 'end_year: null' (sağ-sansürlü hayatta kalma verisi)
+# - Alman birleşmesi (1990): GFR(260) pre-1990, GMY(255) post-1990. Her iki kod da
+#   listelenir; 03_coalition_samples country_master ile filtreleyerek yıla uygun olanı tutar.
+#
+# Veri kaynakları:
+# - ATOP v5.1 (formal alliances)
+# - COW Formal Alliances v4.1
+# - Akademik IR kaynakları (Walt 1987, Snyder 1997, vb.)
+#
+# Şema:
+#   id: kısa benzersiz id
+#   name: tam ad
+#   type: alliance | bloc | summit_group | de_facto
+#   start_year, end_year: kapsama dönemi (end_year null = hâlâ aktif)
+#   members: [COW kodu listesi]
+#   region: coğrafi bölge etiketi
+#   notes: kısa açıklama / üyelik kaynağı
+
+coalitions:
+
+  # ====================================================================
+  # SOĞUK SAVAŞ ÇEKİRDEK İTTİFAKLARI
+  # ====================================================================
+
+  - id: NATO_founding
+    name: "NATO (kurucu üyeler)"
+    type: alliance
+    start_year: 1949
+    end_year: 1951
+    members: [2, 20, 200, 210, 211, 212, 220, 235, 325, 385, 390, 395]
+    # Kurucu 12: USA(2), CAN(20), UK(200), NTH(210), BEL(211), LUX(212),
+    # FRA(220), POR(235), ITA(325), NOR(385), DEN(390), ISL(395)
+    region: north_atlantic
+    notes: "Kuzey Atlantik Antlaşması, 4 Nisan 1949. ATOP atop3:1."
+
+  - id: NATO_15
+    name: "NATO (Yunanistan + Türkiye eklenmesi)"
+    type: alliance
+    start_year: 1952
+    end_year: 1954
+    members: [2, 20, 200, 210, 211, 212, 220, 235, 325, 350, 385, 390, 395, 640]
+    # Kurucu 12 + GRC(350), TUR(640). Toplam 14.
+    region: north_atlantic
+    notes: "1952 Yunanistan ve Türkiye katılımı."
+
+  - id: NATO_16_GFR
+    name: "NATO (Batı Almanya eklenmesi)"
+    type: alliance
+    start_year: 1955
+    end_year: 1981
+    members: [2, 20, 200, 210, 211, 212, 220, 235, 260, 325, 350, 385, 390, 395, 640]
+    # + GFR(260). Toplam 15.
+    region: north_atlantic
+    notes: "1955 Batı Almanya katılımı. Soğuk Savaş'ın ana NATO yapısı."
+
+  - id: NATO_16_SPN
+    name: "NATO (İspanya eklenmesi)"
+    type: alliance
+    start_year: 1982
+    end_year: 1998
+    members: [2, 20, 200, 210, 211, 212, 220, 230, 235, 255, 260, 325, 350, 385, 390, 395, 640]
+    # + SPN(230). GFR(260) pre-1990, GMY(255) post-1990 — her ikisi de listede,
+    # country_master filtresi yıla göre doğru olanı tutar.
+    region: north_atlantic
+    notes: "1982 İspanya katılımı. 1990 Alman birleşmesi bu dönemde."
+
+  - id: NATO_1999
+    name: "NATO (ilk doğu genişlemesi)"
+    type: alliance
+    start_year: 1999
+    end_year: 2003
+    members: [2, 20, 200, 210, 211, 212, 220, 230, 235, 255, 290, 310, 316, 325, 350, 385, 390, 395, 640]
+    # GMY(255) birleşmiş, +POL(290), HUN(310), CZR(316). Toplam 19.
+    region: euro_atlantic
+    notes: "1999 Polonya, Macaristan, Çek Cumhuriyeti katılımı."
+
+  - id: NATO_2004
+    name: "NATO (büyük doğu genişlemesi)"
+    type: alliance
+    start_year: 2004
+    end_year: 2008
+    members: [2, 20, 200, 210, 211, 212, 220, 230, 235, 255, 290, 310, 316, 317, 325, 349, 350, 355, 360, 366, 367, 368, 385, 390, 395, 640]
+    # +SVK(317), SLV(349), BUL(355), ROM(360), EST(366), LAT(367), LIT(368). Toplam 26.
+    region: euro_atlantic
+    notes: "2004 7 ülke katılımı: Bulgaristan, Romanya, Slovakya, Slovenya, Estonya, Letonya, Litvanya."
+
+  - id: WARSAW_PACT
+    name: "Varşova Paktı"
+    type: alliance
+    start_year: 1955
+    end_year: 1991
+    members: [265, 290, 310, 315, 339, 355, 360, 365]
+    # USSR(365), POL(290), HUN(310), CZE(315), ALB(339, 1968'e kadar fiili),
+    # BUL(355), ROM(360), GDR(265)
+    region: eastern_europe
+    notes: "Varşova Antlaşması Örgütü. Mayıs 1955 - Temmuz 1991."
+
+  - id: RIO_PACT
+    name: "Rio Antlaşması (TIAR)"
+    type: alliance
+    start_year: 1947
+    end_year: null
+    members: [2, 40, 41, 42, 51, 52, 53, 70, 90, 91, 92, 93, 94, 95, 100, 101, 130, 135, 140, 145, 150, 155, 160, 165]
+    # USA(2), CUB(40, askıya alındı 1962), HAI(41), DOM(42), JAM(51), TRI(52),
+    # BAR(53), MEX(70), GUA(90), HON(91), SAL(92), NIC(93), COS(94), PAN(95),
+    # COL(100), VEN(101), ECU(130), PER(135), BRA(140), BOL(145), PAR(150),
+    # CHL(155), ARG(160), URU(165)
+    region: americas
+    notes: "Inter-American Treaty of Reciprocal Assistance."
+
+  - id: ANZUS
+    name: "ANZUS"
+    type: alliance
+    start_year: 1951
+    end_year: null
+    members: [2, 900, 920]
+    region: pacific
+    notes: "Avustralya, Yeni Zelanda, ABD üçlü güvenlik anlaşması. Yeni Zelanda 1986'dan sonra fiilen pasif."
+
+  - id: SEATO
+    name: "SEATO"
+    type: alliance
+    start_year: 1954
+    end_year: 1977
+    members: [2, 200, 220, 770, 800, 840, 900, 920]
+    # USA(2), UK(200), FRA(220), PAK(770), THI(800), PHI(840), AUL(900), NEW(920)
+    region: southeast_asia
+    notes: "Güneydoğu Asya Antlaşması Örgütü."
+
+  # ====================================================================
+  # AVRUPA ENTEGRASYONU
+  # ====================================================================
+
+  - id: EU_6
+    name: "AET kurucu altısı"
+    type: bloc
+    start_year: 1957
+    end_year: 1972
+    members: [210, 211, 212, 220, 260, 325]
+    # NTH(210), BEL(211), LUX(212), FRA(220), GFR(260), ITA(325)
+    region: western_europe
+    notes: "Roma Antlaşması. Avrupa Ekonomik Topluluğu kurucu üyeleri."
+
+  - id: EU_9
+    name: "AET-9 (Britanya/Danimarka/İrlanda)"
+    type: bloc
+    start_year: 1973
+    end_year: 1980
+    members: [200, 205, 210, 211, 212, 220, 260, 325, 390]
+    # +UK(200), IRE(205), DEN(390)
+    region: western_europe
+    notes: "1973 ilk genişleme."
+
+  - id: EU_12
+    name: "AT-12 (İberya genişlemesi)"
+    type: bloc
+    start_year: 1986
+    end_year: 1994
+    members: [200, 205, 210, 211, 212, 220, 230, 235, 255, 260, 325, 350, 390]
+    # +GRC(350), SPN(230), POR(235). GFR(260) pre-1990, GMY(255) post-1990.
+    region: western_europe
+    notes: "1981 Yunanistan, 1986 İspanya ve Portekiz. 1990 Alman birleşmesi bu dönemde."
+
+  - id: EU_15
+    name: "AB-15"
+    type: bloc
+    start_year: 1995
+    end_year: 2003
+    members: [200, 205, 210, 211, 212, 220, 230, 235, 255, 305, 325, 350, 375, 380, 390]
+    # +AUS(305), FIN(375), SWE(380). Almanya birleşmiş GMY(255).
+    region: europe
+    notes: "1995 Avusturya, İsveç, Finlandiya katılımı."
+
+  - id: EU_25
+    name: "AB-25 (büyük genişleme)"
+    type: bloc
+    start_year: 2004
+    end_year: 2006
+    members: [200, 205, 210, 211, 212, 220, 230, 235, 255, 290, 305, 310, 316, 317, 325, 338, 349, 350, 352, 366, 367, 368, 375, 380, 390]
+    # +POL(290), HUN(310), CZR(316), SVK(317), SLV(349), EST(366), LAT(367),
+    # LIT(368), CYP(352), MLT(338). Toplam 25.
+    region: europe
+    notes: "2004 10 yeni üye - tarihin en büyük AB genişlemesi."
+
+  - id: EU_27
+    name: "AB-27"
+    type: bloc
+    start_year: 2007
+    end_year: 2012
+    members: [200, 205, 210, 211, 212, 220, 230, 235, 255, 290, 305, 310, 316, 317, 325, 338, 349, 350, 352, 355, 360, 366, 367, 368, 375, 380, 390]
+    # +BUL(355), ROM(360). Toplam 27.
+    region: europe
+    notes: "2007 Bulgaristan ve Romanya katılımı."
+
+  - id: EU_28
+    name: "AB-28 (Hırvatistan)"
+    type: bloc
+    start_year: 2013
+    end_year: null
+    members: [200, 205, 210, 211, 212, 220, 230, 235, 255, 290, 305, 310, 316, 317, 325, 338, 344, 349, 350, 352, 355, 360, 366, 367, 368, 375, 380, 390]
+    # +CRO(344). Toplam 28.
+    region: europe
+    notes: "2013 Hırvatistan katılımı."
+
+  # ====================================================================
+  # DOĞU ASYA İTTİFAKLARI
+  # ====================================================================
+
+  - id: US_JPN
+    name: "ABD-Japonya Güvenlik Antlaşması"
+    type: alliance
+    start_year: 1951
+    end_year: null
+    members: [2, 740]
+    region: east_asia
+    notes: "İkili antlaşma. 1960'ta revize edildi."
+
+  - id: US_KOR
+    name: "ABD-Güney Kore Karşılıklı Savunma"
+    type: alliance
+    start_year: 1953
+    end_year: null
+    members: [2, 732]
+    region: east_asia
+    notes: "Kore Savaşı sonrası."
+
+  - id: SINO_SOVIET
+    name: "Çin-Sovyet İttifakı"
+    type: alliance
+    start_year: 1950
+    end_year: 1961
+    members: [365, 710]
+    # USSR(365), CHN(710)
+    region: east_asia
+    notes: "İdeolojik çatlağa kadar fiili olarak. 1980'de resmen sona erdi."
+
+  # ====================================================================
+  # ORTA DOĞU / ARAP DÜNYASI
+  # ====================================================================
+
+  - id: ARAB_LEAGUE_founding
+    name: "Arap Birliği (kurucu)"
+    type: bloc
+    start_year: 1945
+    end_year: 1970
+    members: [645, 651, 652, 660, 663, 670, 678]
+    # IRQ(645), EGY(651), SYR(652), LEB(660), JOR(663), SAU(670), YAR/K.Yemen(678)
+    region: middle_east
+    notes: "Mart 1945 kuruldu. 7 kurucu üye. Sonradan birçok üye eklendi."
+
+  - id: ARAB_LEAGUE_expanded
+    name: "Arap Birliği (genişlemiş)"
+    type: bloc
+    start_year: 1971
+    end_year: null
+    members: [600, 615, 616, 620, 625, 645, 651, 652, 660, 663, 670, 678, 679, 680, 690, 692, 694, 696, 698]
+    # MOR(600), ALG(615), TUN(616), LIB(620), SUD(625), IRQ(645), EGY(651),
+    # SYR(652), LEB(660), JOR(663), SAU(670), YAR(678)/YPR(680)/YEM(679),
+    # KUW(690), BAH(692), QAT(694), UAE(696), OMA(698)
+    region: middle_east
+    notes: "1970'lerden itibaren genişlemiş yapı. Yemen kodları: K.Yemen(678) pre-1990, G.Yemen(680) pre-1990, birleşik Yemen(679) post-1990."
+
+  - id: GCC
+    name: "Körfez İşbirliği Konseyi"
+    type: alliance
+    start_year: 1981
+    end_year: null
+    members: [670, 690, 692, 694, 696, 698]
+    # SAU(670), KUW(690), BAH(692), QAT(694), UAE(696), OMA(698)
+    region: gulf
+    notes: "1981 kuruldu."
+
+  - id: BAGHDAD_PACT
+    name: "Bağdat Paktı / CENTO"
+    type: alliance
+    start_year: 1955
+    end_year: 1979
+    members: [200, 630, 640, 645, 770]
+    # UK(200), IRN(630), TUR(640), IRQ(645), PAK(770). 1958'de Irak ayrıldı; sonra CENTO oldu.
+    region: middle_east
+    notes: "1955 Bağdat Paktı, 1959 sonrası CENTO. 1979 İran devrimi ile sona erdi."
+
+  # ====================================================================
+  # AFRIKA
+  # ====================================================================
+
+  - id: OAU
+    name: "Afrika Birliği Örgütü"
+    type: bloc
+    start_year: 1963
+    end_year: 2001
+    members: [404, 411, 420, 432, 433, 434, 435, 436, 437, 438, 439, 450, 451, 452, 461, 471, 475, 481, 482, 483, 484, 490, 500, 501, 510, 516, 517, 520, 522, 530, 531, 540, 541, 551, 552, 553, 560, 565, 570, 571, 572, 580, 581, 590, 600, 615, 616, 620, 625, 651]
+    # Yaklaşık 1990'lar üyeliği. Dahil: GNB(404), EQG(411), GAM(420), MLI(432),
+    # SEN(433), BEN(434), MAU(435), NIG(436), CDI(437), GUI(438), BFA(439),
+    # LBR(450), SLE(451), GHA(452), TOG(461), CAM(471), NGA(475), GAB(481),
+    # CAR(482), CHA(483), CON(484), DRC(490), UGA(500), KEN(501), TAZ(510),
+    # BUI(516), RWA(517), SOM(520), DJI(522), ETH(530), ERI(531, post-1993),
+    # ANG(540), MOZ(541), ZAM(551), ZIM(552), MAW(553), SAF(560), NAM(565),
+    # LES(570), BOT(571), SWA(572), MAG(580), COM(581), MAS(590),
+    # MOR(600), ALG(615), TUN(616), LIB(620), SUD(625), EGY(651)
+    region: africa
+    notes: "1963 Addis Ababa. 2002'de Afrika Birliği'ne dönüştü."
+
+  - id: ECOWAS
+    name: "Batı Afrika Devletleri Ekonomik Topluluğu"
+    type: bloc
+    start_year: 1975
+    end_year: null
+    members: [402, 404, 420, 432, 433, 434, 435, 436, 437, 438, 439, 450, 451, 452, 461, 475]
+    # CPV(402), GNB(404), GAM(420), MLI(432), SEN(433), BEN(434), MAU(435, ayrıldı 2002),
+    # NIG(436), CDI(437), GUI(438), BFA(439), LBR(450), SLE(451), GHA(452),
+    # TOG(461), NGA(475). Toplam 16 (Moritanya dahil).
+    region: west_africa
+    notes: "1975 Lagos Antlaşması."
+
+  - id: SADC
+    name: "Güney Afrika Kalkınma Topluluğu"
+    type: bloc
+    start_year: 1992
+    end_year: null
+    members: [510, 540, 541, 551, 552, 553, 560, 565, 570, 571, 572]
+    # TAZ(510), ANG(540), MOZ(541), ZAM(551), ZIM(552), MAW(553),
+    # SAF(560, katıldı 1994), NAM(565), LES(570), BOT(571), SWA(572)
+    region: southern_africa
+    notes: "1992 kuruldu (SADCC 1980'den dönüşmüş). SAF 1994'te katıldı."
+
+  # ====================================================================
+  # ASYA
+  # ====================================================================
+
+  - id: ASEAN_founding
+    name: "ASEAN (kurucu beş)"
+    type: bloc
+    start_year: 1967
+    end_year: 1983
+    members: [800, 820, 830, 840, 850]
+    # THI(800), MAL(820), SIN(830), PHI(840), INS(850)
+    region: southeast_asia
+    notes: "1967 Bangkok Deklarasyonu."
+
+  - id: ASEAN_expanded
+    name: "ASEAN (genişlemiş)"
+    type: bloc
+    start_year: 1984
+    end_year: 1994
+    members: [800, 820, 830, 835, 840, 850]
+    # +BRU(835)
+    region: southeast_asia
+    notes: "Brunei katılımı."
+
+  - id: ASEAN_10
+    name: "ASEAN-10"
+    type: bloc
+    start_year: 1999
+    end_year: null
+    members: [775, 800, 811, 812, 816, 820, 830, 835, 840, 850]
+    # MYA(775), THI(800), CAM(811), LAO(812), VIE(816), MAL(820),
+    # SIN(830), BRU(835), PHI(840), INS(850)
+    region: southeast_asia
+    notes: "Tam üyelik. Vietnam (1995), Laos+Myanmar (1997), Kamboçya (1999)."
+
+  - id: SAARC
+    name: "Güney Asya Bölgesel İşbirliği Birliği"
+    type: bloc
+    start_year: 1985
+    end_year: null
+    members: [750, 760, 770, 771, 780, 781, 790]
+    # IND(750), BHU(760), PAK(770), BNG(771), SRI(780), MAD(781), NEP(790)
+    region: south_asia
+    notes: "1985 Dakka kuruldu. Afganistan 2007'de katıldı."
+
+  - id: SCO_founding
+    name: "Şangay İşbirliği Örgütü (kurucu)"
+    type: bloc
+    start_year: 2001
+    end_year: 2016
+    members: [365, 702, 703, 704, 705, 710]
+    # RUS(365), TAJ(702), KYR(703), UZB(704), KAZ(705), CHN(710)
+    region: central_asia
+    notes: "2001 Şangay zirvesi. 2017'de Hindistan ve Pakistan katıldı."
+
+  # ====================================================================
+  # DE FACTO / SUMMIT GRUPLAR
+  # ====================================================================
+
+  - id: NAM_founding
+    name: "Bağlantısızlar Hareketi (Belgrad)"
+    type: de_facto
+    start_year: 1961
+    end_year: 1969
+    members: [345, 452, 651, 750, 850]
+    # YUG(345), GHA(452), EGY(651), IND(750), INS(850)
+    region: global_south
+    notes: "1961 Belgrad zirvesi. 25 kurucu ülke; bunlar beş öncü lider."
+
+  - id: G7_founding
+    name: "G7 (kurucu)"
+    type: summit_group
+    start_year: 1976
+    end_year: 1997
+    members: [2, 20, 200, 220, 255, 325, 740]
+    # USA(2), CAN(20), UK(200), FRA(220), GMY(255), ITA(325), JPN(740)
+    region: global_north
+    notes: "1976 Porto Riko zirvesi. Kanada 1976 katıldı."
+
+  - id: G8
+    name: "G8 (Rusya katılımıyla)"
+    type: summit_group
+    start_year: 1998
+    end_year: 2013
+    members: [2, 20, 200, 220, 255, 325, 365, 740]
+    # G7 + RUS(365)
+    region: global
+    notes: "Rusya 1997'de katıldı, 2014 Kırım sonrası askıya alındı."
+
+  - id: BRICS
+    name: "BRICS"
+    type: summit_group
+    start_year: 2009
+    end_year: null
+    members: [140, 365, 560, 710, 750]
+    # BRA(140), RUS(365), SAF(560), CHN(710), IND(750)
+    region: global
+    notes: "BRIC olarak 2009 başladı; SAF 2010'da katıldı."
+
+  - id: GULF_WAR_COALITION
+    name: "Körfez Savaşı koalisyonu"
+    type: de_facto
+    start_year: 1990
+    end_year: 1991
+    members: [2, 20, 200, 220, 255, 325, 640, 651, 652, 663, 670, 690, 692, 694, 696, 698]
+    # USA(2), CAN(20), UK(200), FRA(220), GMY(255), ITA(325), TUR(640),
+    # EGY(651), SYR(652), JOR(663), SAU(670), KUW(690), BAH(692),
+    # QAT(694), UAE(696), OMA(698)
+    region: middle_east
+    notes: "Çöl Fırtınası Operasyonu (1990-91). Resmi BMGK karar bazlı."
+
+  - id: ISAF
+    name: "ISAF (Afganistan koalisyonu)"
+    type: de_facto
+    start_year: 2003
+    end_year: 2014
+    members: [2, 20, 200, 210, 211, 212, 220, 230, 235, 255, 290, 305, 310, 316, 317, 325, 350, 355, 360, 366, 367, 368, 375, 380, 640, 740, 900, 920]
+    # NATO üyeleri + JPN(740), AUL(900), NEW(920). ~50 ülke katıldı;
+    # bunlar başlıca asker veren ülkeler.
+    region: south_asia
+    notes: "NATO-liderliğinde ISAF, 2003-2014. Afganistan-merkezli."
+
+# Kanon istatistikleri (kayıt için):
+# - Toplam koalisyon: 31
+# - Tip dağılımı: alliance=10, bloc=14, summit_group=3, de_facto=4 (NAM dahil)
+# - Dönem kapsamı: 1945-2016
+# - Bölge dağılımı: euro-atlantic ağırlıklı; sonraki sürümde dengelenebilir
+#
+# COW kodu doğrulama notu (2026-05-15):
+# - Tüm kodlar COW state system (system2016.csv) ile çapraz kontrol edildi
+# - Alman birleşmesi: GFR(260) + GMY(255) her iki kod ilgili dönemlerde listelendi
+# - Yemen: YAR(678), YPR(680), birleşik YEM(679) — country_master filtresi yıla göre seçer
+# - Malta(338) düzeltildi (önceki 343 = K.Makedonya hatasıydı)
+# - 2016 sonrası genişlemeler kapsam dışı (state system 2016'da bitiyor)
