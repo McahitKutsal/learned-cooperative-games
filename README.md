@@ -129,7 +129,7 @@ Notebooks were developed on Google Colab (A100 GPU). Recommended order:
 @article{learned_cooperative_games_2026,
   title   = {Learning Coalition Value Functions from Relational Data:
              A Graph Neural Network Approach to Non-Superadditive International Alliance Games},
-  author  = {TBD},
+  author  = {Kutsal, Mücahit},
   journal = {Games and Economic Behavior (under review)},
   year    = {2026}
 }
@@ -137,4 +137,6 @@ Notebooks were developed on Google Colab (A100 GPU). Recommended order:
 
 ## License
 
-TBD.
+This project is released under the MIT License. See [LICENSE](LICENSE) for the full text.
+
+Copyright (c) 2026 Mücahit Kutsal.
