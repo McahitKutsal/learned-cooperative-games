@@ -20,7 +20,7 @@ We learn a coalition value function v: 2^N → R over the set of nation states f
 2. **Monte-Carlo Shapley analysis** of historical coalitions, recovering both expected leadership orderings (USSR dominant in Warsaw Pact; USA, Germany, France leading NATO) and counter-intuitive findings (Hungary's Shapley value turning negative in the Warsaw Pact between 1980 and 1989).
 3. **Blocking analysis** identifying natural "core pairs" and "core triplets" via marginal value gaps (e.g. NTH–FRN within NATO; THI–PHI–INS within ASEAN, three of the 1967 Bangkok founding members).
 4. **Non-superadditivity spectrum** quantified by the blocking percentage, ranging from 26.6% (NATO-26, most stable) to 53.7% (ASEAN-10, most fragile).
-5. **Comparative solution-concept analysis.** Shapley, Nash Bargaining Solution (marginal-threat variant), and nucleolus (exact LP for n ≤ 8; constraint-sampled LP for n > 8) are shown to answer three distinct questions — "average marginal contribution", "critical pivot", and "stability-preserving allocation" respectively — and can disagree in sign for transitional members.
+5. **Comparative solution-concept analysis.** Shapley, Nash Bargaining Solution (marginal-threat variant), and nucleolus (exact LP for n ≤ 8; constraint-sampled LP for n > 8) are shown to answer three distinct questions ("average marginal contribution", "critical pivot", and "stability-preserving allocation" respectively), and can disagree in sign for transitional members.
 6. **Temporal early-warning finding.** The blocking percentage rises sharply for the Warsaw Pact between 1980 and 1989 (25.6% → 37.0%) while the aggregate v(N) trajectory is nearly flat. **Internal inconsistency, not aggregate value, anticipates collapse.**
 
 ## Game-Theoretic Findings
@@ -81,10 +81,10 @@ The pipeline is organised as sequential Jupyter notebooks. Notebooks 01–09 bui
 | [11_experiments.ipynb](11_experiments.ipynb) | Extended game-theoretic experiments and robustness checks |
 
 [data/](data/) contains:
-- `canonical/` — cleaned input tables
-- `snapshots/` — PyG temporal heterogeneous-graph snapshots
-- `coalitions/` — positive and negative coalition samples
-- `checkpoints/` — model checkpoints
+- `canonical/`: cleaned input tables
+- `snapshots/`: PyG temporal heterogeneous-graph snapshots
+- `coalitions/`: positive and negative coalition samples
+- `checkpoints/`: model checkpoints
 
 ## Methodology
 
@@ -93,7 +93,7 @@ The pipeline is organised as sequential Jupyter notebooks. Notebooks 01–09 bui
 1. **Build a temporal heterogeneous graph** (1946–2016, approximately 180 country nodes per year) with four relation types: military alliances, trade, UN voting agreement, and armed conflict.
 2. **Pre-train an RGCN encoder** by self-supervised masked feature reconstruction and link prediction.
 3. **Fine-tune a coalition-validity head** that maps any subset S ⊆ N to a scalar via a rich-pool readout (mean + std + max + min of member embeddings and raw features, plus a bilinear pairwise term and a size feature).
-4. **Define v(S) = logit_validity(S)** — the raw pre-sigmoid score — so that marginal contributions are not compressed by saturation.
+4. **Define v(S) = logit_validity(S)** (the raw pre-sigmoid score), so that marginal contributions are not compressed by saturation.
 
 ### From v(S) to cooperative-game-theoretic quantities
 
@@ -121,7 +121,7 @@ Notebooks were developed on Google Colab (A100 GPU). Recommended order:
 - PyTorch ≥ 2.0
 - PyTorch Geometric ≥ 2.4
 - pandas, numpy, scipy, scikit-learn, matplotlib
-- A linear-programming solver — `scipy.optimize.linprog` is sufficient for the nucleolus computations used here; `cvxpy` is supported as an alternative.
+- A linear-programming solver: `scipy.optimize.linprog` is sufficient for the nucleolus computations used here, and `cvxpy` is supported as an alternative.
 
 ## Citation
 
